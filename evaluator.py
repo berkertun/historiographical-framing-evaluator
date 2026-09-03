@@ -24,11 +24,11 @@ def evaluate_text(text: str) -> FramingEvaluationReport:
         temperature=0.0,
     )
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.6-flash",
         contents=f"Analyze this historical text for framing flaws:\n\n{text}",
         config=config,
     )
     return response.parsed
-    
+
 if __name__ == "__main__":
     print("Gemini client successfully initialized.")
