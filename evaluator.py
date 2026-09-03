@@ -16,5 +16,19 @@ Extract verbatim quotes for each flaw found and provide scholarly explanations."
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
+def evaluate_text(text: str) -> FramingEvaluationReport:
+    config = types.GenerateContentConfig(
+        system_instruction=SYSTEM_INSTRUCTION,
+        response_mime_type="application/json",
+        response_schema=FramingEvaluationReport,
+        temperature=0.0,
+    )
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=f"Analyze this historical text for framing flaws:\n\n{text}",
+        config=config,
+    )
+    return response.parsed
+    
 if __name__ == "__main__":
     print("Gemini client successfully initialized.")
