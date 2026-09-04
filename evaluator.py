@@ -9,10 +9,16 @@ load_dotenv()
 SYSTEM_INSTRUCTION = """You are an expert historiographical evaluator.
 Analyze the provided text for teleological and conceptual framing flaws:
 1. Whig Teleology: Treating historical developments as an inevitable march toward the modern state.
-2. Eurocentric Developmentalism: Treating non-Western reforms as mere imitation of European models rather than localized institutional adaptations.
-3. Anachronistic Moralism: Evaluating historical actors through modern ethical standards rather than contemporary horizon of expectations.
-4. Agency Flattening: Treating historical actors as passive recipients of external influence rather than strategic innovators.
-Extract verbatim quotes for each flaw found and provide scholarly explanations."""
+2. Eurocentric Developmentalism: Treating non-Western reforms as derivative copies of European models.
+3. Anachronistic Moralism: Evaluating historical actors through modern ethical standards.
+4. Agency Flattening: Treating historical actors as passive recipients of external influence.
+
+For each flaw, provide verbatim quotes, scholarly explanations, and a severity score (1-5):
+- 1: Incidental bias (minor uncritical phrasing; core analysis remains sound).
+- 2: Latent bias (subtle developmental undertones under contextualized claims).
+- 3: Moderate flaw (unexamined developmental assumptions diminish contingency).
+- 4: Heavy distortion (teleological or Eurocentric framing drives the causal argument).
+- 5: Pure caricature (blatant inevitability, moral condescension, or total erasure of agency)."""
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
