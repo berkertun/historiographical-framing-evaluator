@@ -8,23 +8,17 @@ class FlawType(str, Enum):
     AGENCY_FLATTENING = "agency_flattening"
 
 class FlawEvidence(BaseModel):
-    flaw_type: FlawType = Field(
-        description="The category of historiographical or teleological bias detected."
+    flaw_type: FlawType
+    quote: str
+    explanation: str
+    severity: int = Field(
+        ...,
+        ge=1,
+        le=5,
+        description="Severity score from 1 (subtle implicit bias) to 5 (overt deterministic distortion)."
     )
-    quote: str = Field(
-        description="The exact verbatim excerpt demonstrating the framing flaw."
-    )
-    explanation: str = Field(
-        description="Scholarly critique explaining why this reflects historiographical bias."
-    )
+
 class FramingEvaluationReport(BaseModel):
-    has_framing_flaws: bool = Field(
-        description="True if any teleological, eurocentric, or moralistic framing flaws exist."
-    )
-    detected_flaws: list[FlawEvidence] = Field(
-        default_factory=list,
-        description="A list of specific historiographical flaws identified with quotes and critiques."
-    )
-    overall_assessment: str = Field(
-        description="A scholarly synthesis evaluating the text's historical contextualization."
-    )
+    has_framing_flaws: bool
+    detected_flaws: list[FlawEvidence]
+    overall_assessment: str
