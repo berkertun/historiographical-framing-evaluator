@@ -1,3 +1,7 @@
+import time
+import warnings
+warnings.filterwarnings("ignore")
+
 from evaluator import evaluate_text
 from dataset import BENCHMARK_CASES
 
@@ -12,3 +16,6 @@ for case in BENCHMARK_CASES:
     
     print(f"  Expected Flaws: {case.should_have_flaws} | Detected Flaws: {report.has_framing_flaws}")
     print(f"  Result: {'PASS ✅' if passed else 'FAIL ❌'}\n")
+    
+    # Pause for 3 seconds to prevent overloading the Gemini server
+    time.sleep(3)
