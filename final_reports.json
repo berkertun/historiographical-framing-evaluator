@@ -1,0 +1,29 @@
+[
+  {
+    "case_id": "tanzimat_control",
+    "evaluation": {
+      "has_framing_flaws": false,
+      "detected_flaws": [],
+      "overall_assessment": "The text avoids common historiographical pitfalls. Rather than depicting the Tanzimat reforms through a lens of Eurocentric developmentalism or Whiggish teleology, it emphasizes the local agency and strategic pragmatism of Ottoman bureaucratic elites negotiating institutional adaptation in response to specific structural pressures."
+    }
+  },
+  {
+    "case_id": "hürriyet_translation_biased",
+    "evaluation": {
+      "has_framing_flaws": true,
+      "detected_flaws": [
+        {
+          "flaw_type": "eurocentric_developmentalism",
+          "quote": "simply copied the French Enlightenment concept without understanding its secular roots",
+          "explanation": "The text reduces Ottoman intellectual history to derivative copying of Western models, framing political concepts as uniquely European imports rather than analyzing localized conceptual adaptations."
+        },
+        {
+          "flaw_type": "agency_flattening",
+          "quote": "awkwardly pasting a modern European idea onto a traditional Islamic society",
+          "explanation": "By depicting Ottoman reformers as passive, uncritical recipients who 'awkwardly pasted' ideas, the text denies their active agency, strategic selectivity, and deliberate synthesis of legal and political concepts."
+        }
+      ],
+      "overall_assessment": "The text exhibits pronounced Eurocentric developmentalism and agency flattening by reducing complex Ottoman intellectual adaptations of 'hürriyet' (liberty) to mere uncritical copying of French Enlightenment thought, overlooking the sophisticated local syntheses constructed by 19th-century Ottoman reformers."
+    }
+  }
+]
