@@ -13,9 +13,11 @@ logging.getLogger("google.genai").setLevel(logging.ERROR)
 from evaluator import evaluate_text
 from dataset import BENCHMARK_CASES
 from google.genai.errors import APIError
+from metrics import compute_benchmark_metrics
 
 print("Starting Historiographical Batch Evaluation...\n")
 saved_reports = []
+benchmark_results = []
 
 for case in BENCHMARK_CASES:
     print(f"Evaluating case: {case.id}")
@@ -31,6 +33,11 @@ for case in BENCHMARK_CASES:
             
             # Save the successful result
             saved_reports.append({"case_id": case.id, "evaluation": report.model_dump()})
+            benchmark_results.append({
+                "case_id": case.id,
+                "passed": passed,
+                "report": report
+            })
             break  # Success! Break out of the retry loop and move to the next case
             
         except APIError as e:
@@ -45,8 +52,25 @@ for case in BENCHMARK_CASES:
     # A small polite pause between normal successful requests
     time.sleep(5)
 
-# 3. Save the final output
-with open("final_reports.json", "w", encoding="utf-8") as file:
-    json.dump(saved_reports, file, indent=2, ensure_ascii=False)
+# 3. Compute benchmark metrics
+metrics = compute_benchmark_metrics(benchmark_results)
 
-print("Evaluation complete! Detailed scholarly reports saved to final_reports.json")
+# 4. Save combined payload (metrics + qualitative reports) to disk
+final_payload = {
+    "metrics": metrics.model_dump(),
+    "case_reports": saved_reports
+}
+
+with open("final_reports.json", "w", encoding="utf-8") as file:
+    json.dump(final_payload, file, indent=2, ensure_ascii=False)
+
+print("\n=== HISTORIOGRAPHICAL BENCHMARK SCORECARD ===")
+print(f"Total Cases: {metrics.total_cases}")
+print(f"Pass Rate: {metrics.accuracy_percentage}% ({metrics.passed_cases}/{metrics.total_cases})")
+print(f"Total Flaws Detected: {metrics.total_flaws_detected}")
+print(f"Average Severity: {metrics.average_severity}/5.0")
+print("Flaws by Category:")
+for flaw, count in metrics.flaws_by_type.items():
+    print(f"  - {flaw}: {count}")
+
+print("\nEvaluation complete! Structured benchmark data saved to final_reports.json")
