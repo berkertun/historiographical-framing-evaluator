@@ -4,9 +4,13 @@
 
 An automated alignment evaluation harness built to detect deterministic bias, Eurocentric developmentalism, and agency reduction in LLM-generated historical narratives.
 
+An automated alignment evaluation harness built to detect deterministic bias, Eurocentric developmentalism, and agency reduction in LLM-generated historical narratives.
+
 Built with Python, Google GenAI SDK `gemini-3.6-flash`), and Pydantic.
 
 ---
+
+
 
 ## Why This Evaluator Exists
 
