@@ -1,5 +1,7 @@
 # Historiographical & Teleological Framing Evaluator
 
+[![Continuous Integration]([https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml))
+
 An automated alignment evaluation harness built to detect deterministic bias, Eurocentric developmentalism, and agency reduction in LLM-generated historical narratives.
 
 Built with Python, Google GenAI SDK `gemini-3.6-flash`), and Pydantic.
@@ -127,6 +129,8 @@ The harness evaluates all benchmark scenarios, handles free-tier API rate limits
 
 ---
 
+
+
 ## Interactive CLI Evaluation
 
 You can also evaluate individual passages directly from your terminal using `cli.py`:
@@ -167,8 +171,6 @@ Flaws by Category:
 
 ```
 
-
-
 ### Granular Critique Excerpt `tanzimat_biased`)
 
 ```json
@@ -188,8 +190,6 @@ Flaws by Category:
 ```
 
 ---
-
-
 
 ## Methodological Note: The Need for Humanist AI Alignment
 
