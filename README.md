@@ -1,6 +1,6 @@
 # Historiographical & Teleological Framing Evaluator
 
-[![Continuous Integration]([https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml))
+[![Continuous Integration]([https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/berkertun/historiographical-framing-evaluator/actions/workflows/ci.yml))
 
 An automated alignment evaluation harness built to detect deterministic bias, Eurocentric developmentalism, and agency reduction in LLM-generated historical narratives.
 
