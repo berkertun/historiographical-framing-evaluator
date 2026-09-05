@@ -16,59 +16,58 @@ This project does not check whether a model knows the exact calendar date of the
 
 ---
 
+
+
 ## Flaw Taxonomy & Calibrated Scale
 
 The evaluator categorizes distortions into four distinct historiographical failure modes:
 
 1. **Whig Teleology:** Treating history as a preordained line marching toward modern secular or bureaucratic endpoints.
-
 2. **Eurocentric Developmentalism:** Measuring non-Western statecraft purely as a late or defective copy of European patterns.
-
 3. **Anachronistic Moralism:** Imposing 21st-century moral judgments onto historical agents rather than contextualizing their socio-political horizon.
-
 4. **Agency Flattening:** Reducing historical subjects to passive victims or mere consumers of outside influence without local initiative.
+
+
 
 ### Discrete Severity Scale (1–5)
 
 To avoid subjective, arbitrary scoring, each detected flaw is evaluated against discrete operational boundaries:
 
-* **1 - Incidental bias:** Minor uncritical phrasing; the underlying historical analysis remains sound.
-
-* **2 - Latent bias:** Subtle developmental assumptions operating beneath contextualized claims.
-
-* **3 - Moderate flaw:** Unexamined modernization assumptions noticeably diminish contingency and agency.
-
-* **4 - Heavy distortion:** Eurocentric or teleological framing actively drives the causal argument.
-
-* **5 - Pure caricature:** Blatant inevitability, moral condescension, or total erasure of historical agency.
+- **1 - Incidental bias:** Minor uncritical phrasing; the underlying historical analysis remains sound.
+- **2 - Latent bias:** Subtle developmental assumptions operating beneath contextualized claims.
+- **3 - Moderate flaw:** Unexamined modernization assumptions noticeably diminish contingency and agency.
+- **4 - Heavy distortion:** Eurocentric or teleological framing actively drives the causal argument.
+- **5 - Pure caricature:** Blatant inevitability, moral condescension, or total erasure of historical agency.
 
 ---
+
+
 
 ## System Architecture
 
 The pipeline follows a modular architecture separating data contracts, inference logic, benchmark datasets, and metric aggregation:
 
-* `schema.py`: Defines the strict Pydantic contract `FramingEvaluationReport`, `FlawEvidence`, `FlawType`). Uses native SDK type validation with integer bounds `ge=1, le=5`).
-
-* `evaluator.py`: Encapsulates the Google GenAI SDK client `gemini-3.6-flash`). Uses `types.GenerateContentConfig` with `temperature=0.0` and native structured outputs `response_mime_type="application/json"`).
-
-* `dataset.py`: Curates domain-specific benchmark test cases, including biased texts and negative controls (counter-examples) to verify false-positive resistance.
-
-* `metrics.py`: Computes statistical summaries (accuracy, category counts, mean severity) using the `BenchmarkMetrics` model.
-
-* `runner.py`: Orchestrates batch evaluation with custom exponential backoff handling for API quotas `429 RESOURCE_EXHAUSTED`) and exports structured JSON results.
+- `schema.py`: Defines the strict Pydantic contract `FramingEvaluationReport`, `FlawEvidence`, `FlawType`). Uses native SDK type validation with integer bounds `ge=1, le=5`).
+- `evaluator.py`: Encapsulates the Google GenAI SDK client `gemini-3.6-flash`). Uses `types.GenerateContentConfig` with `temperature=0.0` and native structured outputs `response_mime_type="application/json"`).
+- `dataset.py`: Curates domain-specific benchmark test cases, including biased texts and negative controls (counter-examples) to verify false-positive resistance.
+- `metrics.py`: Computes statistical summaries (accuracy, category counts, mean severity) using the `BenchmarkMetrics` model.
+- `runner.py`: Orchestrates batch evaluation with custom exponential backoff handling for API quotas `429 RESOURCE_EXHAUSTED`) and exports structured JSON results.
 
 ---
 
+
+
 ## Getting Started
+
+
 
 ### Prerequisites
 
-* macOS / Linux
+- macOS / Linux
+- Python 3.9+ (Python 3.11+ recommended)
+- A Google Gemini API key ([Google AI Studio]([https://aistudio.google.com/](https://aistudio.google.com/)))
 
-* Python 3.9+ (Python 3.11+ recommended)
 
-* A Google Gemini API key ([Google AI Studio]([https://aistudio.google.com/](https://aistudio.google.com/)))
 
 ### Installation & Environment Setup
 
@@ -76,13 +75,13 @@ The pipeline follows a modular architecture separating data contracts, inference
 
 ```bash
 
-git clone [[https://github.com/berkertun/historiographical-framing-evaluator.git](https://github.com/berkertun/historiographical-framing-evaluator.git)](https://github.com/berkertuncer/historiographical-framing-evaluator.git](https://github.com/berkertuncer/historiographical-framing-evaluator.git))
+git clone [[https://github.com/berkertun/historiographical-framing-evaluator.git](https://github.com/berkertun/historiographical-framing-evaluator.git)](https://github.com/berkertun/historiographical-framing-evaluator.git](https://github.com/berkertun/historiographical-framing-evaluator.git))
 
 cd historiographical-framing-evaluator
 
 ```
 
-2. Create and activate a virtual environment:
+1. Create and activate a virtual environment:
 
 ```bash
 
@@ -92,7 +91,7 @@ source .venv/bin/activate
 
 ```
 
-3. Install required dependencies:
+1. Install required dependencies:
 
 ```bash
 
@@ -100,17 +99,19 @@ pip install -r requirements.txt
 
 ```
 
-4. Configure your API key:
+1. Configure your API key:
 
 Create a `.env` file in the project root:
 
 ```bash
 
-GEMINI_API_KEY="your-actual-api-key-here"
+GEMINI_API_KEY="your-api-key-here"
 
 ```
 
 ---
+
+
 
 ## Running the Benchmark
 
@@ -125,6 +126,20 @@ python [runner.py](http://runner.py)
 The harness evaluates all benchmark scenarios, handles free-tier API rate limits gracefully via backoff delays, and writes both qualitative reports and aggregate statistics into `final_reports.json`.
 
 ---
+
+## Interactive CLI Evaluation
+
+You can also evaluate individual passages directly from your terminal using `cli.py`:
+
+```bash
+
+# Evaluate an inline passage directly
+
+python [cli.py](http://cli.py) "The Tanzimat reforms were merely an inevitable copy of European modernity..."
+
+# Or evaluate a text file from disk
+
+python [cli.py](http://cli.py) --file sample_passage.txt
 
 ## Real Benchmark Output
 
@@ -152,6 +167,8 @@ Flaws by Category:
 
 ```
 
+
+
 ### Granular Critique Excerpt `tanzimat_biased`)
 
 ```json
@@ -171,6 +188,8 @@ Flaws by Category:
 ```
 
 ---
+
+
 
 ## Methodological Note: The Need for Humanist AI Alignment
 
