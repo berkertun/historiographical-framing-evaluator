@@ -1,4 +1,5 @@
 import json
+import sys
 from datetime import datetime
 from dataset import BENCHMARK_CASES
 from evaluator import evaluate_text
@@ -56,4 +57,13 @@ def run_benchmark():
 
 
 if __name__ == "__main__":
-    run_benchmark()
+    MIN_ACCURACY_THRESHOLD = 80.0
+    benchmark_metrics = run_benchmark()
+    if benchmark_metrics.accuracy_percentage < MIN_ACCURACY_THRESHOLD:
+        print(
+            f"\n[FAILURE] Accuracy {benchmark_metrics.accuracy_percentage:.1f}% "
+            f"fell below required threshold of {MIN_ACCURACY_THRESHOLD:.1f}%."
+        )
+        sys.exit(1)
+    print(f"\n[SUCCESS] Evaluation passed quality gate (>= {MIN_ACCURACY_THRESHOLD:.1f}%).")
+    sys.exit(0)
