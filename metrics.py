@@ -43,11 +43,6 @@ def compute_benchmark_metrics(results: list[dict]) -> BenchmarkMetrics:
         flaws_by_type=counts,
     )
 
-    return BenchmarkMetrics(
-        total_cases=total,
-        passed_cases=passed,
-        accuracy_percentage=acc,
-        total_flaws_detected=len(flaws),
-        average_severity=avg_sev,
-        flaws_by_type=counts,
-    )
+
+def evaluate_quality_gate(metrics: BenchmarkMetrics, threshold: float = 80.0) -> bool:
+    return metrics.accuracy_percentage >= threshold

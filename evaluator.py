@@ -22,13 +22,20 @@ For each flaw, provide verbatim quotes, scholarly explanations, and a severity s
 - 4: Heavy distortion (teleological or Eurocentric framing drives the causal argument).
 - 5: Pure caricature (blatant inevitability, moral condescension, or total erasure of agency)."""
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-
 PRIMARY_MODEL = "gemini-3.8-flash"
 FALLBACK_MODEL = "gemini-3.5-flash-lite"
 
 
+def get_genai_client() -> genai.Client:
+    """Lazily initializes and returns the Google GenAI SDK client."""
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable is not set.")
+    return genai.Client(api_key=api_key)
+
+
 def evaluate_text(text: str, max_retries: int = 3) -> FramingEvaluationReport:
+    client = get_genai_client()
     config = types.GenerateContentConfig(
         system_instruction=SYSTEM_INSTRUCTION,
         response_mime_type="application/json",
@@ -66,4 +73,5 @@ def evaluate_text(text: str, max_retries: int = 3) -> FramingEvaluationReport:
 
 
 if __name__ == "__main__":
+    client = get_genai_client()
     print("Gemini client successfully initialized.")
