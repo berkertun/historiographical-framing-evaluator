@@ -6,6 +6,8 @@ class BenchmarkMetrics(BaseModel):
     total_cases: int
     passed_cases: int
     accuracy_percentage: float
+    sensitivity_percentage: float = 0.0
+    specificity_percentage: float = 0.0
     total_flaws_detected: int
     average_severity: float
     flaws_by_type: dict[str, int]
@@ -23,6 +25,23 @@ def compute_benchmark_metrics(results: list[dict]) -> BenchmarkMetrics:
     for f in flaws:
         key = str(f.flaw_type.value)
         counts[key] = counts.get(key, 0) + 1
+
+    positives = [r for r in results if getattr(r.get("case"), "should_have_flaws", None) is True]
+    negatives = [r for r in results if getattr(r.get("case"), "should_have_flaws", None) is False]
+
+    sens = round(sum(1 for r in positives if r["passed"]) / len(positives) * 100.0, 2) if positives else 0.0
+    spec = round(sum(1 for r in negatives if r["passed"]) / len(negatives) * 100.0, 2) if negatives else 0.0
+
+    return BenchmarkMetrics(
+        total_cases=total,
+        passed_cases=passed,
+        accuracy_percentage=acc,
+        sensitivity_percentage=sens,
+        specificity_percentage=spec,
+        total_flaws_detected=len(flaws),
+        average_severity=avg_sev,
+        flaws_by_type=counts,
+    )
 
     return BenchmarkMetrics(
         total_cases=total,

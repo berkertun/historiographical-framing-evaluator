@@ -37,7 +37,7 @@ def run_benchmark():
         print(f"Evaluating case: [{case.id}] ({case.historical_context})...")
         report = evaluate_text(case.text)
         is_passed = report.has_framing_flaws == case.should_have_flaws
-        results.append({"passed": is_passed, "report": report})
+        results.append({"passed": is_passed, "report": report, "case": case})
 
     metrics = compute_benchmark_metrics(results)
 

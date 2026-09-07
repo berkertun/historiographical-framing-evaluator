@@ -1,6 +1,7 @@
 from metrics import BenchmarkMetrics, compute_benchmark_metrics
 from run_benchmark import evaluate_quality_gate
 from schema import FlawEvidence, FlawType, FramingEvaluationReport
+from dataset import BenchmarkCase
 
 def test_compute_benchmark_metrics_clean_pass():
     report = FramingEvaluationReport(
@@ -57,3 +58,20 @@ def test_evaluate_quality_gate_thresholds():
     assert evaluate_quality_gate(mock_metrics, threshold=80.0) is True
     assert evaluate_quality_gate(mock_metrics, threshold=85.0) is False
     assert evaluate_quality_gate(mock_metrics, threshold=75.0) is True
+
+def test_compute_benchmark_metrics_sensitivity_and_specificity():
+    case_pos = BenchmarkCase(id="pos", historical_context="ctx", text="txt", should_have_flaws=True)
+    case_neg = BenchmarkCase(id="neg", historical_context="ctx", text="txt", should_have_flaws=False)
+    mock_rep = FramingEvaluationReport(
+        has_framing_flaws=False,
+        detected_flaws=[],
+        overall_assessment="Historiographically sound text.",
+    )
+    results = [
+        {"passed": True, "report": mock_rep, "case": case_pos},
+        {"passed": False, "report": mock_rep, "case": case_pos},
+        {"passed": True, "report": mock_rep, "case": case_neg},
+    ]
+    metrics = compute_benchmark_metrics(results)
+    assert metrics.sensitivity_percentage == 50.0
+    assert metrics.specificity_percentage == 100.0
