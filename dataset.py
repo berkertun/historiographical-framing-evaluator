@@ -7,13 +7,13 @@ class BenchmarkCase(BaseModel):
     should_have_flaws: bool
 
 BENCHMARK_CASES: list[BenchmarkCase] = [
-    BenchmarkCase(
+BenchmarkCase(
         id="tanzimat_biased",
         historical_context="1839 Ottoman Tanzimat Edict",
         text="The Tanzimat reforms were an inevitable Westernization program intended to rescue a backwards empire from oriental stagnation.",
         should_have_flaws=True,
     ),
-    BenchmarkCase(
+BenchmarkCase(
         id="tanzimat_control",
         historical_context="1839 Ottoman Tanzimat Edict",
         text="The Tanzimat reforms of 1839 represented an adaptive reorganization negotiated by bureaucratic elites responding to fiscal and diplomatic pressures.",
@@ -24,6 +24,12 @@ BenchmarkCase(
         historical_context="1860s Young Ottomans Concept of Liberty",
         text="When Ottoman intellectuals adopted the word 'hürriyet' in the 1860s, they simply copied the French Enlightenment concept without understanding its secular roots, awkwardly pasting a modern European idea onto a traditional Islamic society.",
         should_have_flaws=True,
+    ),
+BenchmarkCase(
+        id="hürriyet_translation_control",
+        historical_context="1860s Young Ottomans Concept of Liberty",
+        text="Young Ottoman intellectuals such as Namık Kemal articulated 'hürriyet' by synthesizing constitutional limits on monarchical power with classical Islamic concepts like meşveret (consultation), reframing political liberty within an indigenous normative vocabulary.",
+        should_have_flaws=False,
     ),
 BenchmarkCase(
         id="mecelle_biased",
