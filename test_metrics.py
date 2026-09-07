@@ -1,6 +1,6 @@
-from metrics import compute_benchmark_metrics
+from metrics import BenchmarkMetrics, compute_benchmark_metrics
+from run_benchmark import evaluate_quality_gate
 from schema import FlawEvidence, FlawType, FramingEvaluationReport
-
 
 def test_compute_benchmark_metrics_clean_pass():
     report = FramingEvaluationReport(
@@ -44,3 +44,16 @@ def test_compute_benchmark_metrics_with_flaws():
     assert metrics.average_severity == 3.0
     assert metrics.flaws_by_type["eurocentric_developmentalism"] == 1
     assert metrics.flaws_by_type["agency_flattening"] == 1
+
+def test_evaluate_quality_gate_thresholds():
+    mock_metrics = BenchmarkMetrics(
+        total_cases=10,
+        passed_cases=8,
+        accuracy_percentage=80.0,
+        total_flaws_detected=0,
+        average_severity=0.0,
+        flaws_by_type={},
+    )
+    assert evaluate_quality_gate(mock_metrics, threshold=80.0) is True
+    assert evaluate_quality_gate(mock_metrics, threshold=85.0) is False
+    assert evaluate_quality_gate(mock_metrics, threshold=75.0) is True

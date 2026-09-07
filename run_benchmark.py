@@ -5,6 +5,7 @@ from dataset import BENCHMARK_CASES
 from evaluator import evaluate_text
 from metrics import compute_benchmark_metrics
 from report_generator import generate_markdown_summary
+from metrics import BenchmarkMetrics
 
 
 def save_benchmark_artifact(metrics, results, filename="benchmark_results.json"):
@@ -55,11 +56,12 @@ def run_benchmark():
 
     return metrics
 
-
+def evaluate_quality_gate(metrics: BenchmarkMetrics, threshold: float = 80.0) -> bool:
+    return metrics.accuracy_percentage >= threshold
 if __name__ == "__main__":
     MIN_ACCURACY_THRESHOLD = 80.0
     benchmark_metrics = run_benchmark()
-    if benchmark_metrics.accuracy_percentage < MIN_ACCURACY_THRESHOLD:
+    if not evaluate_quality_gate(benchmark_metrics, MIN_ACCURACY_THRESHOLD):
         print(
             f"\n[FAILURE] Accuracy {benchmark_metrics.accuracy_percentage:.1f}% "
             f"fell below required threshold of {MIN_ACCURACY_THRESHOLD:.1f}%."
