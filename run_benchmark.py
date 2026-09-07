@@ -3,6 +3,7 @@ from datetime import datetime
 from dataset import BENCHMARK_CASES
 from evaluator import evaluate_text
 from metrics import compute_benchmark_metrics
+from report_generator import generate_markdown_summary
 
 
 def save_benchmark_artifact(metrics, results, filename="benchmark_results.json"):
@@ -19,6 +20,13 @@ def save_benchmark_artifact(metrics, results, filename="benchmark_results.json")
     print(f"\nArtifact saved to: {filename}")
 
 
+def save_markdown_artifact(metrics, filename="benchmark_report.md"):
+    report_text = generate_markdown_summary(metrics)
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(report_text)
+    print(f"Markdown report saved to: {filename}")
+
+
 def run_benchmark():
     print(f"Starting evaluation across {len(BENCHMARK_CASES)} benchmark cases...\n")
     results = []
@@ -30,6 +38,7 @@ def run_benchmark():
         results.append({"passed": is_passed, "report": report})
 
     metrics = compute_benchmark_metrics(results)
+
     print("\n=== Benchmark Summary Metrics ===")
     print(f"Total Cases: {metrics.total_cases}")
     print(f"Passed Cases: {metrics.passed_cases}")
@@ -41,6 +50,8 @@ def run_benchmark():
         print(f"  - {flaw}: {count}")
 
     save_benchmark_artifact(metrics, results)
+    save_markdown_artifact(metrics)
+
     return metrics
 
 
