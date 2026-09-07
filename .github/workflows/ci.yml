@@ -21,3 +21,16 @@ jobs:
 
       - name: Run hermetic test suite
         run: pytest -v
+        
+        - name: Run evaluation benchmark
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python run_benchmark.py
+
+      - name: Upload evaluation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-reports
+          path: |
+            benchmark_results.json
+            benchmark_report.md
