@@ -3,3 +3,4 @@
 __pycache__/
 benchmark_results.json
 benchmark_report.md
+benchmark_summary.md
