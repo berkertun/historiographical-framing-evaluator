@@ -46,3 +46,18 @@ def compute_benchmark_metrics(results: list[dict]) -> BenchmarkMetrics:
 
 def evaluate_quality_gate(metrics: BenchmarkMetrics, threshold: float = 80.0) -> bool:
     return metrics.accuracy_percentage >= threshold
+
+
+def generate_markdown_summary(metrics: BenchmarkMetrics) -> str:
+    return (
+        "## Historiographical Framing Evaluation Summary\n\n"
+        "| Metric | Value |\n"
+        "| :--- | :--- |\n"
+        f"| Total Cases | {metrics.total_cases} |\n"
+        f"| Passed Cases | {metrics.passed_cases} |\n"
+        f"| Accuracy | {metrics.accuracy_percentage}% |\n"
+        f"| Sensitivity (Flaw Detection) | {metrics.sensitivity_percentage}% |\n"
+        f"| Specificity (Control Clearance) | {metrics.specificity_percentage}% |\n"
+        f"| Total Flaws Detected | {metrics.total_flaws_detected} |\n"
+        f"| Average Severity | {metrics.average_severity} / 5.0 |\n"
+    )

@@ -1,4 +1,4 @@
-from metrics import BenchmarkMetrics, compute_benchmark_metrics
+from metrics import BenchmarkMetrics, compute_benchmark_metrics, evaluate_quality_gate, generate_markdown_summary
 from run_benchmark import evaluate_quality_gate
 from schema import FlawEvidence, FlawType, FramingEvaluationReport
 from dataset import BenchmarkCase
@@ -75,3 +75,19 @@ def test_compute_benchmark_metrics_sensitivity_and_specificity():
     metrics = compute_benchmark_metrics(results)
     assert metrics.sensitivity_percentage == 50.0
     assert metrics.specificity_percentage == 100.0
+
+def test_generate_markdown_summary():
+    metrics = BenchmarkMetrics(
+        total_cases=10,
+        passed_cases=8,
+        accuracy_percentage=80.0,
+        sensitivity_percentage=75.0,
+        specificity_percentage=85.0,
+        total_flaws_detected=3,
+        average_severity=2.5,
+        flaws_by_type={"eurocentric_developmentalism": 2, "whig_teleology": 1},
+    )
+    summary_md = generate_markdown_summary(metrics)
+    assert "| Accuracy | 80.0% |" in summary_md
+    assert "| Sensitivity (Flaw Detection) | 75.0% |" in summary_md
+    assert "| Specificity (Control Clearance) | 85.0% |" in summary_md
